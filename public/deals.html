@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Deals - PocketPerks</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+        }
+        .deals-page {
+            padding: 2rem 0;
+        }
+        .deals-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+        .deals-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        .deals-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .deal-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .deal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        .sort-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        .sort-select:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <h1>PocketPerks</h1>
+            <div class="nav-links">
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <a href="/deals.html" class="active"><i class="fas fa-tags"></i> Deals</a>
+                <a href="/business-dashboard.html"><i class="fas fa-store"></i> Business</a>
+                <select id="sortFilter" class="sort-select">
+                    <option value="discount">Highest Discount</option>
+                    <option value="expiry">Expiring Soon</option>
+                </select>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="deals-page">
+            <div class="deals-header">
+                <h2><i class="fas fa-fire"></i> Hot Deals In Your City</h2>
+                <p class="deals-subtitle">Discover amazing discounts from local businesses</p>
+            </div>
+            <div class="deals-grid" id="dealsGrid"></div>
+        </section>
+
+        <div id="loadingSpinner" class="loading-spinner hidden">
+            <div class="spinner"></div>
+            <p><i class="fas fa-sync-alt"></i> Loading deals...</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 DealsNearby. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/js/deals.js"></script>
+</body>
+</html>

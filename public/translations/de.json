@@ -1,0 +1,33 @@
+{
+  "common": {
+    "findDeals": "Angebote in der Nähe Finden",
+    "allDeals": "Alle Angebote",
+    "business": "Unternehmen",
+    "home": "Startseite",
+    "loading": "Laden...",
+    "error": "Ein Fehler ist aufgetreten",
+    "noDeals": "Keine Angebote gefunden"
+  },
+  "deals": {
+    "discount": "RABATT",
+    "expires": "Läuft ab am",
+    "claimDeal": "Angebot Einlösen",
+    "distance": "km entfernt",
+    "sort": {
+      "highestDiscount": "Höchster Rabatt",
+      "expiringSoon": "Endet Bald",
+      "distance": "Entfernung"
+    }
+  },
+  "business": {
+    "createDeal": "Neues Angebot Erstellen",
+    "dealName": "Angebotsname",
+    "businessName": "Unternehmensname",
+    "discount": "Rabatt in Prozent",
+    "description": "Angebotsbeschreibung",
+    "expiryDate": "Ablaufdatum",
+    "submit": "Angebot Erstellen",
+    "success": "Angebot erfolgreich erstellt!",
+    "error": "Fehler beim Erstellen des Angebots"
+  }
+}

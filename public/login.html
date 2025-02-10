@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - DealsNearby</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        :root {
+            --primary-color: #6B73FF;
+            --secondary-color: #2B2D42;
+            --background-color: #FFFFFF;
+            --text-color: #2B2D42;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #000000;
+        }
+
+        .auth-container {
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
+            color: #000000;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            color: #666666;
+            font-size: 1rem;
+        }
+
+        .auth-form {
+            margin-top: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #000000;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #000000;
+            background-color: #f8f9fa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #6B73FF;
+            box-shadow: 0 0 0 3px rgba(107, 115, 255, 0.1);
+            background-color: #ffffff;
+        }
+
+        select.form-control {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #000000;
+            background-color: #f8f9fa;
+            cursor: pointer;
+        }
+
+        select.form-control option {
+            color: #000000;
+            background-color: #ffffff;
+            padding: 12px;
+        }
+
+        .auth-form button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .auth-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(107, 115, 255, 0.2);
+        }
+
+        .auth-links {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .auth-links a {
+            color: #6B73FF;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-links a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        #toggle-forms {
+            color: #6B73FF;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        #toggle-forms:hover {
+            color: #000DFF;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <h1>PocketPerks</h1>
+        </div>
+    </nav>
+
+    <main>
+        <div class="auth-container">
+            <div class="auth-header">
+                <h1>Login</h1>
+                <p>Welcome back!</p>
+            </div>
+            <div id="errorMessage" class="error-message"></div>
+            <form id="authForm" class="auth-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" class="form-control" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Password" required>
+                </div>
+                <button type="submit" class="auth-form button">Login</button>
+            </form>
+            <form id="registerForm" class="auth-form" style="display: none;">
+                <div class="form-group">
+                    <label for="regUsername">Username</label>
+                    <input type="text" id="regUsername" class="form-control" placeholder="Choose a username" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" class="form-control" placeholder="Choose a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="businessName">Business Name</label>
+                    <input type="text" id="businessName" class="form-control" placeholder="Enter your business name" required>
+                </div>
+                <div class="form-group">
+                    <label for="businessCategory">Business Category</label>
+                    <select id="businessCategory" class="form-control" required>
+                        <option value="">Select a category</option>
+                        <option value="Restaurant">Restaurant</option>
+                        <option value="Retail">Retail</option>
+                        <option value="Services">Services</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Fitness">Fitness</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="languages">Languages</label>
+                    <select id="languages" class="form-control" required>
+                        <option value="">Select language</option>
+                        <option value="English">English</option>
+                        <option value="Spanish">Spanish</option>
+                        <option value="French">French</option>
+                        <option value="German">German</option>
+                        <option value="Chinese">Chinese</option>
+                        <option value="Japanese">Japanese</option>
+                    </select>
+                </div>
+                <button type="submit" class="auth-form button">Register</button>
+            </form>
+            <div class="auth-links">
+                <p>Don't have an account? <a href="#" id="toggleAuth">Register</a></p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const authForm = document.getElementById('authForm');
+        const registerForm = document.getElementById('registerForm');
+        const toggleAuth = document.getElementById('toggleAuth');
+        const authTitle = document.getElementById('authTitle');
+        const authHeader = document.querySelector('.auth-header');
+        const errorMessage = document.getElementById('errorMessage');
+        let isLogin = true;
+
+        toggleAuth.addEventListener('click', (e) => {
+            e.preventDefault();
+            const isLogin = authForm.style.display !== 'none';
+            
+            if (isLogin) {
+                authForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                toggleAuth.textContent = 'Login';
+                authHeader.innerHTML = '<h1>Register</h1><p>Create your business account</p>';
+            } else {
+                authForm.style.display = 'block';
+                registerForm.style.display = 'none';
+                toggleAuth.textContent = 'Register';
+                authHeader.innerHTML = '<h1>Login</h1><p>Welcome back!</p>';
+            }
+        });
+
+        authForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const endpoint = '/api/auth/login';
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Store token
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('username', data.username);
+                    // Redirect to main page
+                    window.location.href = '/';
+                } else {
+                    errorMessage.textContent = data.message;
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                errorMessage.textContent = 'An error occurred. Please try again.';
+                errorMessage.style.display = 'block';
+            }
+        });
+
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const regUsername = document.getElementById('regUsername').value;
+            const regPassword = document.getElementById('regPassword').value;
+            const businessName = document.getElementById('businessName').value;
+            const businessCategory = document.getElementById('businessCategory').value;
+            const languages = document.getElementById('languages').value;
+
+            try {
+                const endpoint = '/api/auth/register';
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ regUsername, regPassword, businessName, businessCategory, languages })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Store token
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('username', data.username);
+                    // Redirect to main page
+                    window.location.href = '/';
+                } else {
+                    errorMessage.textContent = data.message;
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                errorMessage.textContent = 'An error occurred. Please try again.';
+                errorMessage.style.display = 'block';
+            }
+        });
+
+        // Check if user is already logged in
+        const token = localStorage.getItem('token');
+        if (token) {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>

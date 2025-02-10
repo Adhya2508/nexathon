@@ -1,0 +1,38 @@
+{
+  "common": {
+    "findDeals": "Find Nearby Deals",
+    "allDeals": "All Deals",
+    "business": "Business",
+    "home": "Home",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "noDeals": "No deals found"
+  },
+  "deals": {
+    "discount": "OFF",
+    "expires": "Expires",
+    "claimDeal": "Claim Deal",
+    "distance": "km away",
+    "sort": {
+      "highestDiscount": "Highest Discount",
+      "expiringSoon": "Expiring Soon",
+      "distance": "Distance"
+    }
+  },
+  "business": {
+    "createDeal": "Create New Deal",
+    "dealName": "Deal Name",
+    "businessName": "Business Name",
+    "discount": "Discount Percentage",
+    "description": "Deal Description",
+    "expiryDate": "Expiry Date",
+    "submit": "Create Deal",
+    "success": "Deal created successfully!",
+    "error": "Failed to create deal"
+  },
+  "chat": {
+    "placeholder": "Ask about deals...",
+    "send": "Send",
+    "loading": "AI is thinking..."
+  }
+}

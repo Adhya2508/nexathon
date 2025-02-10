@@ -1,0 +1,33 @@
+{
+  "common": {
+    "findDeals": "आस-पास के ऑफर खोजें",
+    "allDeals": "सभी ऑफर",
+    "business": "व्यवसाय",
+    "home": "होम",
+    "loading": "लोड हो रहा है...",
+    "error": "एक त्रुटि हुई",
+    "noDeals": "कोई ऑफर नहीं मिला"
+  },
+  "deals": {
+    "discount": "छूट",
+    "expires": "समाप्ति तिथि",
+    "claimDeal": "ऑफर प्राप्त करें",
+    "distance": "किमी दूर",
+    "sort": {
+      "highestDiscount": "सबसे अधिक छूट",
+      "expiringSoon": "जल्द समाप्त होने वाले",
+      "distance": "दूरी"
+    }
+  },
+  "business": {
+    "createDeal": "नया ऑफर बनाएं",
+    "dealName": "ऑफर का नाम",
+    "businessName": "व्यवसाय का नाम",
+    "discount": "छूट प्रतिशत",
+    "description": "ऑफर का विवरण",
+    "expiryDate": "समाप्ति तिथि",
+    "submit": "ऑफर बनाएं",
+    "success": "ऑफर सफलतापूर्वक बनाया गया!",
+    "error": "ऑफर बनाने में त्रुटि"
+  }
+}
