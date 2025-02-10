@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PocketPerks - Customer Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #1a1b26;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: #1a1b26;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-brand {
+            color: #6366f1;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .login-card {
+            background-color: #1f2937;
+            border-radius: 10px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .welcome-text {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-text h2 {
+            color: #6366f1;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-text p {
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #9ca3af;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: #374151;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #6366f1;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #6366f1;
+            border: 1px solid #6366f1;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .login-btn {
+            width: 100%;
+            background-color: #6366f1;
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #4f46e5;
+        }
+
+        .social-login {
+            text-align: center;
+        }
+
+        .social-login p {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            background-color: #374151;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            background-color: #4b5563;
+        }
+
+        .social-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">PocketPerks</a>
+    </nav>
+
+    <div class="container">
+        <div class="login-card">
+            <div class="welcome-text">
+                <h2>Welcome Back</h2>
+                <p>Manage your deals and earn rewards</p>
+            </div>
+
+            <div class="auth-buttons">
+                <button class="btn btn-primary" id="loginTab">Login</button>
+                <button class="btn btn-secondary" id="signupTab">Sign Up</button>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <button type="submit" class="login-btn">Login</button>
+
+                <div class="social-login">
+                    <p>Or continue with</p>
+                    <div class="social-buttons">
+                        <button type="button" class="social-btn">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMTYuNTEgOEg4Ljk4djNINTMuMDFBNy4xMiA3LjEyIDAgMCAxIDkgMTYuOTlhNy4xMiA3LjEyIDAgMCAxLTcuMTQtNy4wOEE3LjEyIDcuMTIgMCAwIDEgOSAyLjgzYTcuMDcgNy4wNyAwIDAgMSA0LjkgMS45MUwxNi40MyAyLjJBOS45MyA5LjkzIDAgMCAwIDkgMEE5IDkgMCAwIDAgOSAxOGE5IDkgMCAwIDAgOS05LjE4eiIvPjwvc3ZnPg==" alt="Google">
+                            Google
+                        </button>
+                        <button type="button" class="social-btn">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMTggOUExNy45OSAxNy45OSAwIDAgMSAxNi4zNyAxNHYtLjAzYy0uODggMi41LTIuNDkgNC4xLTQuMzggNC4xLTIuMzEgMC00LjItMS44LTQuMi00LjA3IDAtMi4yNSAxLjg5LTQuMDcgNC4yLTQuMDcgMS4xIDAgMi4xLjQzIDIuODUgMS4xNFY3LjgzQzEzLjg3IDcuMzMgMTIuOTggNyAxMiA3Yy0zLjMxIDAtNiAyLjY5LTYgNnMyLjY5IDYgNiA2YzMuMDIgMCA1LjUxLTIuMjQgNS45Ny01LjE1SDEyVjEwaDZ6Ii8+PC9zdmc+" alt="Facebook">
+                            Facebook
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/customer-auth.js"></script>
+</body>
+</html>

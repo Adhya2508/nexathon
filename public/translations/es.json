@@ -1,0 +1,38 @@
+{
+  "common": {
+    "findDeals": "Encuentra Ofertas Cercanas",
+    "allDeals": "Todas las Ofertas",
+    "business": "Negocios",
+    "home": "Inicio",
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "noDeals": "No se encontraron ofertas"
+  },
+  "deals": {
+    "discount": "DESCUENTO",
+    "expires": "Vence",
+    "claimDeal": "Reclamar Oferta",
+    "distance": "km de distancia",
+    "sort": {
+      "highestDiscount": "Mayor Descuento",
+      "expiringSoon": "Próximo a Vencer",
+      "distance": "Distancia"
+    }
+  },
+  "business": {
+    "createDeal": "Crear Nueva Oferta",
+    "dealName": "Nombre de la Oferta",
+    "businessName": "Nombre del Negocio",
+    "discount": "Porcentaje de Descuento",
+    "description": "Descripción de la Oferta",
+    "expiryDate": "Fecha de Vencimiento",
+    "submit": "Crear Oferta",
+    "success": "¡Oferta creada exitosamente!",
+    "error": "Error al crear la oferta"
+  },
+  "chat": {
+    "placeholder": "Pregunta sobre ofertas...",
+    "send": "Enviar",
+    "loading": "La IA está pensando..."
+  }
+}

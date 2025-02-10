@@ -1,0 +1,33 @@
+{
+  "common": {
+    "findDeals": "查找附近优惠",
+    "allDeals": "所有优惠",
+    "business": "商家",
+    "home": "首页",
+    "loading": "加载中...",
+    "error": "发生错误",
+    "noDeals": "未找到优惠"
+  },
+  "deals": {
+    "discount": "折扣",
+    "expires": "有效期至",
+    "claimDeal": "领取优惠",
+    "distance": "公里远",
+    "sort": {
+      "highestDiscount": "最高折扣",
+      "expiringSoon": "即将到期",
+      "distance": "距离"
+    }
+  },
+  "business": {
+    "createDeal": "创建新优惠",
+    "dealName": "优惠名称",
+    "businessName": "商家名称",
+    "discount": "折扣百分比",
+    "description": "优惠描述",
+    "expiryDate": "到期日期",
+    "submit": "创建优惠",
+    "success": "优惠创建成功！",
+    "error": "创建优惠时出错"
+  }
+}

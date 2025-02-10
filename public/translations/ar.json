@@ -1,0 +1,33 @@
+{
+  "common": {
+    "findDeals": "ابحث عن العروض القريبة",
+    "allDeals": "جميع العروض",
+    "business": "الأعمال",
+    "home": "الرئيسية",
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ",
+    "noDeals": "لم يتم العثور على عروض"
+  },
+  "deals": {
+    "discount": "خصم",
+    "expires": "ينتهي في",
+    "claimDeal": "احصل على العرض",
+    "distance": "كم بعيد",
+    "sort": {
+      "highestDiscount": "أعلى خصم",
+      "expiringSoon": "ينتهي قريباً",
+      "distance": "المسافة"
+    }
+  },
+  "business": {
+    "createDeal": "إنشاء عرض جديد",
+    "dealName": "اسم العرض",
+    "businessName": "اسم الشركة",
+    "discount": "نسبة الخصم",
+    "description": "وصف العرض",
+    "expiryDate": "تاريخ الانتهاء",
+    "submit": "إنشاء العرض",
+    "success": "تم إنشاء العرض بنجاح!",
+    "error": "حدث خطأ أثناء إنشاء العرض"
+  }
+}

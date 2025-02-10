@@ -1,0 +1,33 @@
+{
+  "common": {
+    "findDeals": "근처 할인 찾기",
+    "allDeals": "모든 할인",
+    "business": "비즈니스",
+    "home": "홈",
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "noDeals": "할인을 찾을 수 없습니다"
+  },
+  "deals": {
+    "discount": "할인",
+    "expires": "만료일",
+    "claimDeal": "할인 받기",
+    "distance": "km 거리",
+    "sort": {
+      "highestDiscount": "최대 할인",
+      "expiringSoon": "곧 만료",
+      "distance": "거리"
+    }
+  },
+  "business": {
+    "createDeal": "새 할인 만들기",
+    "dealName": "할인명",
+    "businessName": "비즈니스명",
+    "discount": "할인율",
+    "description": "할인 설명",
+    "expiryDate": "만료일",
+    "submit": "할인 만들기",
+    "success": "할인이 성공적으로 생성되었습니다!",
+    "error": "할인 생성 중 오류 발생"
+  }
+}
