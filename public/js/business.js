@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let userLocation = null;
 
     function getUserLocation() {
-        if (navigator.geolocation) {
+        if (navigator.geolocation) { 
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     userLocation = {
