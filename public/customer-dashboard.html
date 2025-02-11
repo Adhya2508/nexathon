@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PocketPerks - Customer Dashboard</title>
+    <title>Nexathon - Customer Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         :root {
-            --primary-color: #4A90E2;
-            --primary-dark: #357ABD;
-            --secondary-color: #2C3E50;
-            --background-dark: #1a1e2e;
-            --card-bg: #252b3d;
+            --primary-color: #6B73FF;
+            --secondary-color: #9D50BB;
+            --dark-bg: #1a1a2e;
+            --card-bg: #242444;
             --text-primary: #FFFFFF;
-            --text-secondary: #B0B0B0;
-            --success-color: #2ECC71;
-            --warning-color: #F1C40F;
-            --danger-color: #E74C3C;
+            --text-secondary: #B8B8D0;
+            --success: #6BCB77;
+            --warning: #FFD93D;
+            --danger: #FF6B6B;
+            --primary-gradient: linear-gradient(135deg, #6B73FF, #9D50BB);
+            --hover-gradient: linear-gradient(135deg, #9D50BB, #6B73FF);
         }
 
         * {
@@ -30,627 +31,545 @@
         }
 
         body {
-            background-color: var(--background-dark);
+            background: var(--dark-bg);
             color: var(--text-primary);
             min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 100% 0%, rgba(107,115,255,0.15) 0%, transparent 25%),
+                radial-gradient(circle at 0% 100%, rgba(157,80,187,0.15) 0%, transparent 25%);
+            background-attachment: fixed;
         }
 
-        .sidebar {
-            background-color: var(--card-bg);
-            min-height: 100vh;
-            padding: 20px;
-            position: fixed;
-            width: 250px;
-            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            transition: all 0.3s ease;
+        .navbar {
+            background: rgba(36, 36, 68, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 0;
         }
 
-        .main-content {
-            margin-left: 250px;
-            padding: 30px;
-            transition: all 0.3s ease;
-        }
-
-        .brand {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .brand i {
+        .navbar-brand {
             font-size: 1.8rem;
-        }
-
-        .nav-link {
-            color: var(--text-secondary);
-            padding: 12px 15px;
-            margin: 8px 0;
-            border-radius: 8px;
-            transition: all 0.3s;
-            font-weight: 500;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.5rem;
         }
 
-        .nav-link i {
-            width: 20px;
-            text-align: center;
+        .navbar-brand i {
+            font-size: 2rem;
+            color: var(--primary-color);
         }
 
-        .nav-link:hover, .nav-link.active {
-            background-color: var(--primary-color);
-            color: var(--text-primary);
-            transform: translateX(5px);
-        }
-
-        .dashboard-card {
-            background-color: var(--card-bg);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+        .dashboard-header {
+            background: rgba(36, 36, 68, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .stats-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .stats-label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .table {
-            color: var(--text-primary);
-            margin-bottom: 0;
-        }
-
-        .table th {
-            color: var(--text-secondary);
-            border-color: rgba(255, 255, 255, 0.1);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-        }
-
-        .table td {
-            border-color: rgba(255, 255, 255, 0.1);
-            vertical-align: middle;
-        }
-
-        #wheel {
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            position: relative;
-            overflow: hidden;
-            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
-            margin: 20px auto;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-            border: 10px solid var(--card-bg);
-        }
-
-        .spin-btn {
-            background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
-            color: var(--text-primary);
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
-        }
-
-        .spin-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
-        }
-
-        .spin-btn:disabled {
-            background: var(--text-secondary);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+        .claimed-offers-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0;
         }
 
         .offer-card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
+            background: rgba(36, 36, 68, 0.9);
+            border-radius: 15px;
+            padding: 1.5rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .offer-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .offer-card.claimed {
-            opacity: 0.7;
+        .offer-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-gradient);
         }
 
-        .offer-card h5 {
-            color: var(--primary-color);
+        .offer-title {
+            font-size: 1.2rem;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
         }
 
-        .offer-card p {
+        .offer-details {
             color: var(--text-secondary);
-            margin-bottom: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .coupon-code {
+            background: rgba(107, 115, 255, 0.1);
+            padding: 0.8rem;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin: 1rem 0;
+            border: 1px dashed var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .coupon-code::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            to {
+                left: 100%;
+            }
+        }
+
+        .copy-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            width: 100%;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .offer-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: rgba(36, 36, 68, 0.8);
+            border-radius: 20px;
+            margin: 2rem 0;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .browse-deals-btn {
+            background: var(--primary-gradient);
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 2rem;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+            display: inline-block;
+        }
+
+        .browse-deals-btn:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .location-request {
+            background: rgba(36, 36, 68, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nearby-deal-card {
+            background: rgba(36, 36, 68, 0.9);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .nearby-deal-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .deal-distance {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: var(--primary-gradient);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .deal-rating {
+            color: #FFD700;
+            margin-right: 1rem;
+        }
+
+        .deal-category {
+            color: var(--text-secondary);
             font-size: 0.9rem;
         }
 
-        .badge {
-            padding: 8px 12px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
+        .return-home-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .return-home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
         }
 
-        .modal-content {
-            background-color: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-        }
-
-        .modal-header {
-            border-bottom-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .modal-footer {
-            border-top-color: rgba(255, 255, 255, 0.1);
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .dashboard-card {
-            animation: fadeIn 0.5s ease-out forwards;
-        }
-
-        .dashboard-card:nth-child(1) { animation-delay: 0.1s; }
-        .dashboard-card:nth-child(2) { animation-delay: 0.2s; }
-        .dashboard-card:nth-child(3) { animation-delay: 0.3s; }
-        .dashboard-card:nth-child(4) { animation-delay: 0.4s; }
-
-        /* Loading animation */
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--card-bg);
-            border-top: 5px solid var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
+            .claimed-offers-container {
+                grid-template-columns: 1fr;
             }
-            .main-content {
-                margin-left: 0;
-            }
-            .sidebar.active {
-                transform: translateX(0);
+            
+            .dashboard-header {
+                padding: 1.5rem;
+                margin: 1rem;
             }
         }
     </style>
 </head>
 <body>
+    <a href="/" class="btn btn-primary return-home-btn">
+        <i class="fas fa-home me-2"></i>Return to Home
+    </a>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="/">
-                <i class="fas fa-wallet"></i>
-                PocketPerks
+                <i class="fas fa-ticket-alt"></i>
+                Nexathon
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/deals.html">Browse Deals</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="logout()">Logout</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="dashboard-container">
-        <div class="sidebar">
-            <a href="#" class="brand">
-                <i class="fas fa-wallet"></i>
-                PocketPerks
-            </a>
-            <nav class="nav flex-column">
-                <a class="nav-link active" href="#overview">
-                    <i class="fas fa-chart-line"></i> Overview
-                </a>
-                <a class="nav-link" href="#rewards">
-                    <i class="fas fa-gift"></i> Rewards
-                </a>
-                <a class="nav-link" href="#offers">
-                    <i class="fas fa-tags"></i> Offers
-                </a>
-                <a class="nav-link" href="#analytics">
-                    <i class="fas fa-chart-bar"></i> Analytics
-                </a>
-                <a class="nav-link" href="#settings">
-                    <i class="fas fa-cog"></i> Settings
-                </a>
-                <a class="nav-link" href="#" id="logout">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
-            </nav>
+    <div class="container py-4">
+        <div class="dashboard-header">
+            <h1 class="mb-3">Welcome back, <span id="userName">User</span>!</h1>
+            <p class="text-secondary mb-0">Manage your coupons and discover nearby deals.</p>
         </div>
 
-        <div class="main-content">
-            <div class="container-fluid">
-                <h2 class="mb-4">Dashboard Overview</h2>
-                
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="dashboard-card">
-                            <div class="stats-number">
-                                <i class="fas fa-coins"></i>
-                                <span id="pointsDisplay">0</span>
-                            </div>
-                            <div class="stats-label">Available Points</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="dashboard-card">
-                            <div class="stats-number">
-                                <i class="fas fa-ticket-alt"></i>
-                                <span id="claimedOffersCount">0</span>
-                            </div>
-                            <div class="stats-label">Claimed Offers</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="dashboard-card">
-                            <div class="stats-number">
-                                <i class="fas fa-trophy"></i>
-                                <span id="rewardsCount">0</span>
-                            </div>
-                            <div class="stats-label">Rewards Won</div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="dashboard-card">
-                            <div class="stats-number">
-                                <i class="fas fa-dollar-sign"></i>
-                                <span id="totalSavings">$0</span>
-                            </div>
-                            <div class="stats-label">Total Savings</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-4">
-                    <div class="col-md-6">
-                        <div class="dashboard-card">
-                            <h4><i class="fas fa-dharmachakra me-2"></i>Spin to Win</h4>
-                            <div id="wheel"></div>
-                            <div class="text-center mt-4">
-                                <button id="spinButton" class="spin-btn">
-                                    <i class="fas fa-sync-alt me-2"></i>Spin (10 points)
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="dashboard-card">
-                            <h4><i class="fas fa-history me-2"></i>Recent Activity</h4>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Activity</th>
-                                            <th>Points</th>
-                                            <th>Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="activityTable">
-                                        <!-- Activity rows will be added here -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <div class="dashboard-card">
-                            <h4><i class="fas fa-fire me-2"></i>Available Offers</h4>
-                            <div id="availableOffers" class="row">
-                                <!-- Available offers will be added here -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <div class="dashboard-card">
-                            <h4><i class="fas fa-check-circle me-2"></i>Claimed Offers</h4>
-                            <div id="claimedOffers" class="row">
-                                <!-- Claimed offers will be added here -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Location Request Section -->
+        <div id="locationRequest" class="location-request">
+            <i class="fas fa-map-marker-alt fa-3x mb-3" style="color: var(--primary-color)"></i>
+            <h3>Enable Location Services</h3>
+            <p class="text-secondary">Allow us to show you the best deals near you!</p>
+            <button onclick="requestLocation()" class="btn btn-primary">
+                <i class="fas fa-location-arrow me-2"></i>Enable Location
+            </button>
         </div>
-    </div>
 
-    <!-- Reward Modal -->
-    <div class="modal fade" id="rewardModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header border-bottom-0">
-                    <h5 class="modal-title">
-                        <i class="fas fa-star text-warning me-2"></i>
-                        Congratulations! 🎉
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body text-center py-4">
-                    <div class="display-1 mb-3">🎁</div>
-                    <p id="rewardMessage" class="fs-4 mb-0"></p>
-                </div>
-                <div class="modal-footer border-top-0">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-                        <i class="fas fa-check me-2"></i>Awesome!
-                    </button>
-                </div>
-            </div>
+        <!-- Nearby Deals Section -->
+        <div id="nearbyDealsSection" style="display: none;">
+            <h2 class="mb-4">Deals Near You</h2>
+            <div id="map"></div>
+            <div id="nearbyDealsContainer"></div>
         </div>
-    </div>
 
-    <!-- Loading Spinner -->
-    <div class="loading-overlay" style="display: none;">
-        <div class="loading-spinner"></div>
+        <h2 class="mb-4 mt-5">Your Claimed Coupons</h2>
+        <div id="claimedOffersContainer">
+            <!-- Claimed coupons will be loaded here -->
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/auth-utils.js"></script>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Check authentication and update navigation
-            authUtils.redirectIfNotAuthenticated();
-            authUtils.updateNavigation();
-            
-            // Load dashboard data
-            loadDashboardData();
-            
-            // Initialize the wheel
-            initWheel();
-        });
+        let map;
+        let userMarker;
+        let dealMarkers = [];
 
-        async function loadDashboardData() {
+        async function requestLocation() {
             try {
-                const { token } = authUtils.getUser();
-                const response = await fetch('/api/customer/dashboard', {
+                const position = await new Promise((resolve, reject) => {
+                    navigator.geolocation.getCurrentPosition(resolve, reject);
+                });
+
+                document.getElementById('locationRequest').style.display = 'none';
+                document.getElementById('nearbyDealsSection').style.display = 'block';
+
+                const { latitude, longitude } = position.coords;
+                initializeMap(latitude, longitude);
+                loadNearbyDeals(latitude, longitude);
+            } catch (error) {
+                alert('Error getting location. Please enable location services and try again.');
+            }
+        }
+
+        function initializeMap(latitude, longitude) {
+            // Initialize the map
+            map = L.map('map').setView([latitude, longitude], 15);
+            
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: ' OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Add user marker
+            userMarker = L.marker([latitude, longitude], {
+                icon: L.divIcon({
+                    className: 'user-marker',
+                    html: '<i class="fas fa-user-circle fa-2x" style="color: var(--primary-color)"></i>'
+                })
+            }).addTo(map);
+            userMarker.bindPopup('Your Location').openPopup();
+        }
+
+        async function loadNearbyDeals(latitude, longitude) {
+            try {
+                const response = await fetch(`/api/deals/nearby?latitude=${latitude}&longitude=${longitude}`);
+                if (!response.ok) throw new Error('Failed to load nearby deals');
+                
+                const deals = await response.json();
+                displayNearbyDeals(deals);
+                addDealMarkersToMap(deals);
+            } catch (error) {
+                console.error('Error loading nearby deals:', error);
+            }
+        }
+
+        function displayNearbyDeals(deals) {
+            const container = document.getElementById('nearbyDealsContainer');
+            container.innerHTML = deals.map(deal => `
+                <div class="nearby-deal-card" onclick="highlightDealOnMap('${deal.id}')">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h4>${deal.name}</h4>
+                        <span class="deal-distance">${deal.distance} km away</span>
+                    </div>
+                    <div class="mb-2">
+                        <span class="deal-rating">
+                            ${'★'.repeat(Math.floor(deal.rating))}${deal.rating % 1 ? '½' : ''}
+                            ${'☆'.repeat(5 - Math.ceil(deal.rating))}
+                        </span>
+                        <span class="deal-category">${deal.category}</span>
+                    </div>
+                    <p class="mb-2">${deal.description}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-secondary">${deal.address}</small>
+                        <button onclick="claimDeal('${deal.id}', this)" class="btn btn-primary btn-sm">
+                            <i class="fas fa-ticket-alt me-2"></i>Claim ${deal.discount}% OFF
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addDealMarkersToMap(deals) {
+            // Clear existing markers
+            dealMarkers.forEach(marker => marker.remove());
+            dealMarkers = [];
+
+            deals.forEach(deal => {
+                const marker = L.marker([
+                    deal.location.coordinates[0],
+                    deal.location.coordinates[1]
+                ], {
+                    icon: L.divIcon({
+                        className: 'deal-marker',
+                        html: `<i class="fas fa-store fa-lg" style="color: #FF6B6B"></i>`
+                    })
+                }).addTo(map);
+
+                marker.bindPopup(`
+                    <strong>${deal.name}</strong><br>
+                    ${deal.discount}% OFF<br>
+                    ${deal.distance} km away
+                `);
+
+                dealMarkers.push({
+                    id: deal.id,
+                    marker
+                });
+            });
+        }
+
+        function highlightDealOnMap(dealId) {
+            const dealMarker = dealMarkers.find(m => m.id === dealId);
+            if (dealMarker) {
+                map.setView(dealMarker.marker.getLatLng(), 16);
+                dealMarker.marker.openPopup();
+            }
+        }
+
+        async function loadClaimedOffers() {
+            try {
+                const response = await fetch('/api/user/coupons', {
                     headers: {
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
                 });
 
                 if (!response.ok) {
-                    if (response.status === 401) {
-                        authUtils.logout();
-                        return;
-                    }
-                    throw new Error('Failed to load dashboard data');
+                    throw new Error('Failed to load coupons');
                 }
 
-                const data = await response.json();
-                updateDashboard(data);
+                const coupons = await response.json();
+                displayClaimedOffers(coupons);
             } catch (error) {
-                console.error('Error loading dashboard:', error);
-                showError('Failed to load dashboard data. Please try again.');
+                console.error('Error loading coupons:', error);
+                showEmptyState('error');
             }
         }
 
-        function updateDashboard(data) {
-            // Update points display
-            document.getElementById('pointsDisplay').textContent = data.points || 0;
-            document.getElementById('claimedOffersCount').textContent = data.claimedOffers?.length || 0;
-            document.getElementById('rewardsCount').textContent = data.rewards?.length || 0;
-            document.getElementById('totalSavings').textContent = `$${data.totalSavings || 0}`;
+        function displayClaimedOffers(coupons) {
+            const container = document.getElementById('claimedOffersContainer');
             
-            // Update claimed offers
-            const claimedOffersElement = document.getElementById('claimedOffers');
-            if (data.claimedOffers && data.claimedOffers.length > 0) {
-                claimedOffersElement.innerHTML = data.claimedOffers.map(offer => `
-                    <div class="col-md-4 mb-4">
-                        <div class="offer-card">
-                            <h4>${offer.title}</h4>
-                            <p>${offer.description}</p>
-                            <span class="offer-date">Claimed on: ${new Date(offer.claimedAt).toLocaleDateString()}</span>
-                        </div>
-                    </div>
-                `).join('');
-            } else {
-                claimedOffersElement.innerHTML = '<div class="col-12"><p class="text-center">No offers claimed yet</p></div>';
+            if (!coupons || coupons.length === 0) {
+                showEmptyState('no-offers');
+                return;
             }
 
-            // Update activity table
-            const activityTable = document.getElementById('activityTable');
-            if (data.activities && data.activities.length > 0) {
-                activityTable.innerHTML = data.activities.map(activity => `
-                    <tr>
-                        <td>${activity.description}</td>
-                        <td>${activity.points > 0 ? '+' : ''}${activity.points}</td>
-                        <td>${new Date(activity.date).toLocaleDateString()}</td>
-                    </tr>
-                `).join('');
-            } else {
-                activityTable.innerHTML = '<tr><td colspan="3" class="text-center">No recent activity</td></tr>';
-            }
+            container.innerHTML = coupons.map(coupon => `
+                <div class="offer-card">
+                    <h3 class="offer-title">${coupon.dealTitle}</h3>
+                    <div class="offer-details">
+                        <p>From: ${coupon.businessName}</p>
+                        <p class="discount-text">${coupon.discount}% OFF</p>
+                    </div>
+                    <div class="coupon-code">
+                        ${coupon.code}
+                    </div>
+                    <button class="copy-btn" onclick="copyCouponCode('${coupon.code}', this)">
+                        Copy Code
+                    </button>
+                    <div class="offer-meta">
+                        <span>Created: ${new Date(coupon.createdAt).toLocaleDateString()}</span>
+                        <span>Expires: ${new Date(coupon.expiryDate).toLocaleDateString()}</span>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        function initWheel() {
-            const width = 300;
-            const height = 300;
-            const radius = Math.min(width, height) / 2;
-
-            // Clear any existing wheel
-            d3.select("#wheel").html("");
-
-            const svg = d3.select("#wheel")
-                .append("svg")
-                .attr("width", width)
-                .attr("height", height)
-                .append("g")
-                .attr("transform", `translate(${width / 2},${height / 2})`);
-
-            const data = [
-                { label: "500 Points", value: 500, probability: 0.1, color: "#FF6B6B" },
-                { label: "100 Points", value: 100, probability: 0.2, color: "#4ECDC4" },
-                { label: "50 Points", value: 50, probability: 0.3, color: "#45B7D1" },
-                { label: "20 Points", value: 20, probability: 0.2, color: "#96CEB4" },
-                { label: "10 Points", value: 10, probability: 0.2, color: "#FFEEAD" }
-            ];
-
-            const pie = d3.pie()
-                .value(d => d.probability)
-                .sort(null);
-
-            const arc = d3.arc()
-                .innerRadius(0)
-                .outerRadius(radius);
-
-            // Add sections
-            const sections = svg.selectAll("path")
-                .data(pie(data))
-                .enter()
-                .append("path")
-                .attr("d", arc)
-                .attr("fill", (d, i) => d.data.color)
-                .attr("stroke", "#fff")
-                .style("stroke-width", "2px");
-
-            // Add labels
-            const labelArc = d3.arc()
-                .innerRadius(radius * 0.6)
-                .outerRadius(radius * 0.6);
-
-            svg.selectAll("text")
-                .data(pie(data))
-                .enter()
-                .append("text")
-                .attr("transform", d => `translate(${labelArc.centroid(d)})`)
-                .attr("dy", "0.35em")
-                .attr("text-anchor", "middle")
-                .style("fill", "#fff")
-                .style("font-size", "12px")
-                .style("font-weight", "bold")
-                .text(d => d.data.label);
-
-            // Add spin button functionality
-            const spinButton = document.getElementById('spinButton');
-            let isSpinning = false;
-
-            spinButton.addEventListener('click', async function() {
-                if (isSpinning) return;
-                
-                try {
-                    isSpinning = true;
-                    spinButton.disabled = true;
-                    
-                    const { token } = authUtils.getUser();
-                    const response = await fetch('/api/customer/spin', {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        }
-                    });
-
-                    if (!response.ok) {
-                        throw new Error('Failed to spin');
-                    }
-
-                    const result = await response.json();
-                    
-                    // Calculate rotation based on result
-                    const totalDegrees = 1800 + Math.random() * 360; // Spin multiple times + random
-                    
-                    const selection = svg.select("g")
-                        .style("transform-origin", "center")
-                        .transition()
-                        .duration(4000)
-                        .ease(d3.easeQuadInOut)
-                        .style("transform", `rotate(${totalDegrees}deg)`);
-
-                    // After spin animation
-                    setTimeout(() => {
-                        alert(`Congratulations! You won ${result.points} points!`);
-                        loadDashboardData(); // Refresh dashboard data
-                        
-                        // Reset wheel position smoothly
-                        svg.select("g")
-                            .style("transition", "none")
-                            .style("transform", "rotate(0deg)");
-                        
-                        isSpinning = false;
-                        spinButton.disabled = false;
-                    }, 4500);
-
-                } catch (error) {
-                    console.error('Error spinning:', error);
-                    showError('Failed to spin. Please try again.');
-                    isSpinning = false;
-                    spinButton.disabled = false;
-                }
+        function copyCouponCode(code, button) {
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
             });
         }
 
-        function showError(message) {
-            // Implementation of error display
-            console.error(message);
-            alert(message);
+        function showEmptyState(type) {
+            const container = document.getElementById('claimedOffersContainer');
+            if (type === 'no-offers') {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-ticket"></i>
+                        <h3>No Coupons Yet</h3>
+                        <p>Start exploring and claim some amazing deals!</p>
+                        <a href="/" class="btn btn-primary">Explore Deals</a>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>Oops! Something went wrong</h3>
+                        <p>We're having trouble loading your coupons. Please try again later.</p>
+                        <button onclick="loadClaimedOffers()" class="btn btn-primary">Try Again</button>
+                    </div>
+                `;
+            }
         }
+
+        function loadUserData() {
+            const userName = localStorage.getItem('username');
+            if (userName) {
+                document.getElementById('userName').textContent = userName;
+            }
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '/login.html';
+        }
+
+        function claimDeal(dealId, button) {
+            // Implement deal claiming logic here
+            console.log(`Claiming deal ${dealId}`);
+            button.disabled = true;
+            button.textContent = 'Claimed!';
+        }
+
+        // Initialize
+        loadUserData();
+        loadClaimedOffers();
     </script>
 </body>
 </html>

@@ -3,555 +3,625 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PocketPerks - Browse Deals</title>
+    <title>Deals - Nexathon</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4A90E2;
-            --primary-dark: #357ABD;
-            --secondary-color: #2C3E50;
-            --background-dark: #1a1e2e;
-            --card-bg: #252b3d;
-            --text-primary: #FFFFFF;
-            --text-secondary: #B0B0B0;
-            --success-color: #2ECC71;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            --primary-color: #6B73FF;
+            --secondary-color: #000046;
+            --accent-color: #FF6B6B;
+            --bg-color: #F8F9FA;
+            --card-shadow: 0 8px 16px rgba(0,0,0,0.1);
         }
 
         body {
-            background-color: var(--background-dark);
-            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: var(--bg-color);
             min-height: 100vh;
         }
 
         .navbar {
-            background-color: var(--card-bg);
-            padding: 1rem 2rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .navbar-brand {
+            font-weight: 600;
             font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color) !important;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .navbar-brand i {
-            font-size: 1.8rem;
         }
 
         .nav-link {
-            color: var(--text-secondary) !important;
             font-weight: 500;
-            padding: 0.5rem 1rem;
-            margin: 0 0.5rem;
-            border-radius: 8px;
             transition: all 0.3s ease;
         }
 
-        .nav-link:hover, .nav-link.active {
-            color: var(--text-primary) !important;
-            background-color: rgba(74, 144, 226, 0.1);
+        .nav-link:hover {
             transform: translateY(-2px);
         }
 
-        .search-section {
-            background: linear-gradient(135deg, var(--primary-dark), var(--secondary-color));
-            padding: 40px 0;
-            margin-bottom: 40px;
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            text-align: center;
         }
 
-        .search-box {
-            background-color: var(--card-bg);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        .page-header h1 {
+            font-weight: 700;
+            margin-bottom: 1rem;
         }
 
-        .search-input {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--text-primary);
-            padding: 12px 20px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            background-color: rgba(255, 255, 255, 0.15);
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
-            color: var(--text-primary);
-        }
-
-        .search-input::placeholder {
-            color: var(--text-secondary);
-        }
-
-        .filter-section {
-            background-color: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .filter-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--text-primary);
-        }
-
-        .category-filter {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .category-btn {
-            background-color: rgba(74, 144, 226, 0.1);
-            color: var(--text-secondary);
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .category-btn:hover, .category-btn.active {
-            background-color: var(--primary-color);
-            color: var(--text-primary);
-            transform: translateY(-2px);
-        }
-
-        .price-slider {
-            margin: 20px 0;
-            height: 6px;
-        }
-
-        .noUi-connect {
-            background: var(--primary-color);
-        }
-
-        .noUi-handle {
-            background: var(--primary-color);
-            border: 2px solid var(--text-primary);
-            box-shadow: none;
-            cursor: pointer;
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
 
         .deal-card {
-            background-color: var(--card-bg);
+            background: white;
             border-radius: 15px;
-            overflow: hidden;
-            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            border: none;
+            overflow: hidden;
         }
 
         .deal-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-            border-color: var(--primary-color);
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
         }
 
-        .deal-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
+        .deal-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem;
+            position: relative;
         }
 
-        .deal-card:hover .deal-image {
-            transform: scale(1.05);
+        .discount-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.1rem;
         }
 
         .deal-content {
-            padding: 20px;
+            padding: 1.5rem;
         }
 
-        .deal-title {
-            font-size: 1.2rem;
+        .business-name {
+            color: var(--primary-color);
             font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--text-primary);
+            margin-bottom: 0.5rem;
         }
 
         .deal-description {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 15px;
+            color: #666;
+            margin-bottom: 1rem;
             line-height: 1.6;
         }
 
-        .deal-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .deal-price {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--success-color);
-        }
-
-        .deal-distance {
-            color: var(--text-secondary);
+        .expiry-date {
             font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 1rem;
         }
 
-        /* Loading Animation */
-        .loading-skeleton {
-            background: linear-gradient(90deg, var(--card-bg) 25%, var(--background-dark) 50%, var(--card-bg) 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-        }
-
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        /* Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: var(--primary-color);
-            color: var(--text-primary);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
+        .claim-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-weight: 500;
+            width: 100%;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
+        .claim-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        .back-to-top:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-3px);
+        .claim-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
-        /* Smooth Scrolling */
-        html {
-            scroll-behavior: smooth;
+        .featured-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: #FFD700;
+            color: #000;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        .ending-soon {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        /* Loading animation */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .return-home-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+        }
+        .return-home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
         }
     </style>
 </head>
 <body>
+    <a href="/" class="btn btn-primary return-home-btn">
+        <i class="fas fa-home me-2"></i>Return to Home
+    </a>
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="/">
-                <i class="fas fa-wallet"></i>
-                PocketPerks
+                <i class="fas fa-ticket-alt me-2"></i>PocketPerks
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/"><i class="fas fa-home me-2"></i>Home</a>
+                        <a class="nav-link" href="/"><i class="fas fa-home me-1"></i>Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#"><i class="fas fa-tags me-2"></i>Deals</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login.html"><i class="fas fa-sign-in-alt me-2"></i>Customer Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/business-auth.html"><i class="fas fa-sign-in-alt me-2"></i>Business Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/business-dashboard.html"><i class="fas fa-tachometer-alt me-2"></i>Business Dashboard</a>
+                        <a class="nav-link active" href="/deals.html"><i class="fas fa-tags me-1"></i>Deals</a>
                     </li>
                 </ul>
+                <div class="d-flex">
+                    <a href="/login.html" class="btn btn-outline-light me-2">
+                        <i class="fas fa-sign-in-alt me-1"></i>Login
+                    </a>
+                    <a href="/signup.html" class="btn btn-light">
+                        <i class="fas fa-user-plus me-1"></i>Sign Up
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
 
-    <section class="search-section">
+    <!-- Page Header -->
+    <div class="page-header">
         <div class="container">
-            <div class="search-box">
-                <div class="row">
-                    <div class="col-md-8">
-                        <input type="text" class="form-control search-input" placeholder="Search for deals...">
-                    </div>
-                    <div class="col-md-4">
-                        <select class="form-select search-input">
-                            <option value="">Sort by</option>
-                            <option value="price-low">Price: Low to High</option>
-                            <option value="price-high">Price: High to Low</option>
-                            <option value="popular">Most Popular</option>
-                            <option value="newest">Newest First</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="filter-section">
-                    <h3 class="filter-title">Categories</h3>
-                    <div class="category-filter">
-                        <button class="category-btn active">All</button>
-                        <button class="category-btn">Restaurants</button>
-                        <button class="category-btn">Shopping</button>
-                        <button class="category-btn">Entertainment</button>
-                        <button class="category-btn">Beauty & Spa</button>
-                        <button class="category-btn">Fitness</button>
-                    </div>
-
-                    <h3 class="filter-title">Price Range</h3>
-                    <div id="priceSlider" class="price-slider"></div>
-                    <div class="d-flex justify-content-between mt-2">
-                        <span id="priceMin">$0</span>
-                        <span id="priceMax">$200</span>
-                    </div>
-
-                    <h3 class="filter-title mt-4">Distance</h3>
-                    <div id="distanceSlider" class="price-slider"></div>
-                    <div class="d-flex justify-content-between mt-2">
-                        <span id="distanceMin">0 km</span>
-                        <span id="distanceMax">50 km</span>
-                    </div>
-
-                    <h3 class="filter-title mt-4">Rating</h3>
-                    <div class="d-flex gap-2 mt-2">
-                        <button class="category-btn active">All</button>
-                        <button class="category-btn">4★ & up</button>
-                        <button class="category-btn">3★ & up</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-9">
-                <div class="row" id="dealsList">
-                    <!-- Deals will be dynamically added here -->
-                </div>
-            </div>
+            <h1><i class="fas fa-percentage me-2"></i>Exclusive Deals</h1>
+            <p>Discover amazing offers and save big on your favorite products and services!</p>
         </div>
     </div>
 
-    <div id="backToTop" class="back-to-top">
-        <i class="fas fa-arrow-up"></i>
-    </div>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h4 class="footer-title">About PocketPerks</h4>
-                    <p>Discover the best local deals and earn rewards while you shop. Join our community of smart shoppers today!</p>
-                </div>
-                <div class="col-md-4">
-                    <h4 class="footer-title">Quick Links</h4>
-                    <ul class="footer-links">
-                        <li><a href="/"><i class="fas fa-chevron-right me-2"></i>Home</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right me-2"></i>Deals</a></li>
-                        <li><a href="/customer-dashboard.html"><i class="fas fa-chevron-right me-2"></i>Dashboard</a></li>
-                        <li><a href="/login.html"><i class="fas fa-chevron-right me-2"></i>Login</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h4 class="footer-title">Connect With Us</h4>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                    </div>
-                </div>
+    <!-- Deals Section -->
+    <div class="container mb-5">
+        <div class="row g-4" id="dealsContainer">
+            <!-- Loading State -->
+            <div class="loading" id="loadingState">
+                <div class="loading-spinner mx-auto mb-3"></div>
+                <p>Loading amazing deals for you...</p>
             </div>
         </div>
-    </footer>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize price slider
-            const priceSlider = document.getElementById('priceSlider');
-            noUiSlider.create(priceSlider, {
-                start: [0, 200],
-                connect: true,
-                range: {
-                    'min': 0,
-                    'max': 200
-                }
-            });
+        // Show loading state
+        const loadingState = document.getElementById('loadingState');
+        const dealsContainer = document.getElementById('dealsContainer');
 
-            // Initialize distance slider
-            const distanceSlider = document.getElementById('distanceSlider');
-            noUiSlider.create(distanceSlider, {
-                start: [0, 50],
-                connect: true,
-                range: {
-                    'min': 0,
-                    'max': 50
-                }
-            });
+        // Fetch and display deals
+        fetch('/api/deals')
+            .then(response => response.json())
+            .then(deals => {
+                // Hide loading state
+                loadingState.style.display = 'none';
 
-            // Update price labels
-            priceSlider.noUiSlider.on('update', function(values) {
-                document.getElementById('priceMin').textContent = '$' + Math.round(values[0]);
-                document.getElementById('priceMax').textContent = '$' + Math.round(values[1]);
-            });
-
-            // Update distance labels
-            distanceSlider.noUiSlider.on('update', function(values) {
-                document.getElementById('distanceMin').textContent = Math.round(values[0]) + ' km';
-                document.getElementById('distanceMax').textContent = Math.round(values[1]) + ' km';
-            });
-
-            // Sample deals data
-            const deals = [
-                {
-                    title: '50% Off at Local Restaurant',
-                    description: 'Enjoy half off your meal at one of the best restaurants in town.',
-                    price: 25,
-                    image: 'https://via.placeholder.com/400x200',
-                    category: 'Restaurants',
-                    rating: 4.5
-                },
-                {
-                    title: 'Luxury Spa Package',
-                    description: 'Treat yourself to a relaxing spa day with our exclusive package.',
-                    price: 75,
-                    image: 'https://via.placeholder.com/400x200',
-                    category: 'Beauty & Spa',
-                    rating: 4.8
-                },
-                {
-                    title: '1-Month Gym Membership',
-                    description: 'Start your fitness journey with a discounted gym membership.',
-                    price: 49,
-                    image: 'https://via.placeholder.com/400x200',
-                    category: 'Fitness',
-                    rating: 4.2
-                }
-            ];
-
-            // Render deals
-            function renderDeals(dealsData) {
-                const dealsList = document.getElementById('dealsList');
-                dealsList.innerHTML = '';
-
-                if (dealsData.length === 0) {
-                    dealsList.innerHTML = `
-                        <div class="col-12 no-results">
+                // Display deals
+                if (deals.length === 0) {
+                    // Show empty state if no deals
+                    dealsContainer.innerHTML = `
+                        <div class="empty-state">
                             <i class="fas fa-search mb-3"></i>
-                            <h3>No deals found</h3>
-                            <p>Try adjusting your filters or search terms</p>
+                            <h3>No Deals Available</h3>
+                            <p>Check back later for new exciting offers!</p>
                         </div>
                     `;
                     return;
                 }
 
-                dealsData.forEach((deal, index) => {
-                    const dealElement = document.createElement('div');
-                    dealElement.className = 'col-md-6 col-lg-4';
-                    dealElement.style.animationDelay = `${index * 0.1}s`;
-
-                    dealElement.innerHTML = `
+                // Display deals
+                deals.forEach(deal => {
+                    const dealCard = document.createElement('div');
+                    dealCard.className = 'col-md-6 col-lg-4';
+                    dealCard.innerHTML = `
                         <div class="deal-card">
-                            <img src="${deal.image}" alt="${deal.title}" class="deal-image">
-                            <div class="deal-badge">${deal.rating}★</div>
+                            ${deal.featured ? '<span class="featured-badge"><i class="fas fa-star me-1"></i>Featured</span>' : ''}
+                            ${deal.endingSoon ? '<span class="ending-soon"><i class="fas fa-clock me-1"></i>Ending Soon!</span>' : ''}
+                            <div class="deal-header">
+                                <h5 class="mb-0">${deal.name}</h5>
+                                <span class="discount-badge">${deal.discount}% OFF</span>
+                            </div>
                             <div class="deal-content">
-                                <h3 class="deal-title">${deal.title}</h3>
+                                <div class="business-name">
+                                    <i class="fas fa-store me-1"></i>${deal.businessName}
+                                </div>
                                 <p class="deal-description">${deal.description}</p>
-                                <div class="deal-meta">
-                                    <span class="deal-price">$${deal.price}</span>
-                                    <a href="/login.html" class="deal-button">
-                                        <i class="fas fa-tag me-2"></i>Claim Now
+                                <div class="expiry-date">
+                                    <i class="fas fa-calendar-alt me-1"></i>Expires: ${new Date(deal.expiryDate).toLocaleDateString()}
+                                </div>
+                                <button class="claim-btn" onclick="claimDeal('${deal._id}')">
+                                    <i class="fas fa-ticket-alt me-2"></i>Claim Deal
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    dealsContainer.appendChild(dealCard);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                loadingState.style.display = 'none';
+                dealsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-circle mb-3"></i>
+                        <h3>Oops! Something went wrong</h3>
+                        <p>Please try refreshing the page.</p>
+                    </div>
+                `;
+            });
+
+        // Function to claim a deal
+        function claimDeal(dealId) {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please login to claim this deal');
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Find the deal in the current deals list
+            const deal = currentDeals.find(d => d._id === dealId);
+            if (!deal) return;
+
+            // Check if discount is more than 50%
+            if (deal.discount > 50) {
+                showPremiumUpgradeModal(deal);
+                return;
+            }
+
+            proceedWithClaim(dealId);
+        }
+
+        // Function to show premium upgrade modal
+        function showPremiumUpgradeModal(deal) {
+            const modalHtml = `
+                <div class="modal fade" id="premiumModal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-warning">
+                                <h5 class="modal-title">
+                                    <i class="fas fa-crown me-2"></i>Premium Deal Alert!
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body text-center p-4">
+                                <div class="mb-4">
+                                    <i class="fas fa-star text-warning" style="font-size: 3rem;"></i>
+                                </div>
+                                <h4 class="mb-3">Unlock Premium Benefits!</h4>
+                                <p class="mb-4">This amazing deal with ${deal.discount}% discount is exclusive for premium members.</p>
+                                <div class="premium-features mb-4">
+                                    <div class="feature-item mb-3">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        Access to all high-value deals
+                                    </div>
+                                    <div class="feature-item mb-3">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        Early access to new deals
+                                    </div>
+                                    <div class="feature-item mb-3">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        Exclusive premium-only discounts
+                                    </div>
+                                </div>
+                                <div class="pricing-section bg-light p-3 rounded mb-4">
+                                    <h5 class="mb-2">Special Offer!</h5>
+                                    <p class="text-muted mb-1"><s>₹999/year</s></p>
+                                    <h3 class="text-success mb-0">₹499/year</h3>
+                                    <small class="text-muted">Limited time offer</small>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Maybe Later</button>
+                                <button type="button" class="btn btn-warning" onclick="upgradeToPremium('${deal._id}')">
+                                    <i class="fas fa-crown me-2"></i>Upgrade to Premium
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Add modal to body
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            
+            // Show the modal
+            const modal = new bootstrap.Modal(document.getElementById('premiumModal'));
+            modal.show();
+
+            // Remove modal from DOM when hidden
+            document.getElementById('premiumModal').addEventListener('hidden.bs.modal', function () {
+                this.remove();
+            });
+        }
+
+        // Function to handle premium upgrade
+        function upgradeToPremium(dealId) {
+            // Hide premium modal
+            const premiumModal = bootstrap.Modal.getInstance(document.getElementById('premiumModal'));
+            premiumModal.hide();
+
+            // Show payment processing modal
+            const paymentModalHtml = `
+                <div class="modal fade" id="paymentModal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title">
+                                    <i class="fas fa-credit-card me-2"></i>Complete Your Payment
+                                </h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <form id="paymentForm" class="needs-validation" novalidate>
+                                    <div class="mb-3">
+                                        <label class="form-label">Card Number</label>
+                                        <input type="text" class="form-control" placeholder="1234 5678 9012 3456" required>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col">
+                                            <label class="form-label">Expiry Date</label>
+                                            <input type="text" class="form-control" placeholder="MM/YY" required>
+                                        </div>
+                                        <div class="col">
+                                            <label class="form-label">CVV</label>
+                                            <input type="text" class="form-control" placeholder="123" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Name on Card</label>
+                                        <input type="text" class="form-control" required>
+                                    </div>
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary">
+                                            Pay ₹499 and Upgrade
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.insertAdjacentHTML('beforeend', paymentModalHtml);
+            const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+            paymentModal.show();
+
+            // Handle payment form submission
+            document.getElementById('paymentForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                paymentModal.hide();
+
+                // Show success modal
+                const successModalHtml = `
+                    <div class="modal fade" id="successModal" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-success text-white">
+                                    <h5 class="modal-title">
+                                        <i class="fas fa-check-circle me-2"></i>Welcome to Premium!
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body text-center p-4">
+                                    <div class="mb-4">
+                                        <i class="fas fa-crown text-warning" style="font-size: 3rem;"></i>
+                                    </div>
+                                    <h4 class="mb-3">Congratulations!</h4>
+                                    <p>You're now a premium member. Enjoy exclusive access to high-value deals!</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-success" onclick="proceedWithClaim('${dealId}')">
+                                        Claim Your Deal
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.body.insertAdjacentHTML('beforeend', successModalHtml);
+                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+
+                // Remove modals from DOM when hidden
+                document.getElementById('paymentModal').addEventListener('hidden.bs.modal', function () {
+                    this.remove();
+                });
+                document.getElementById('successModal').addEventListener('hidden.bs.modal', function () {
+                    this.remove();
+                });
+            });
+        }
+
+        // Function to proceed with claim after premium upgrade
+        function proceedWithClaim(dealId) {
+            const button = document.querySelector(`button[onclick="claimDeal('${dealId}')"]`);
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Claiming...';
+
+            fetch(`/api/deals/${dealId}/claim`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        localStorage.removeItem('token');
+                        window.location.href = '/login.html';
+                        throw new Error('Please login again to claim this deal');
+                    }
+                    return response.json().then(err => Promise.reject(err));
+                }
+                return response.json();
+            })
+            .then(data => {
+                button.className = 'claim-btn btn-success';
+                button.innerHTML = '<i class="fas fa-check me-2"></i>Claimed Successfully!';
+                button.disabled = true;
+                
+                // Show coupon code in a modal
+                const modalHtml = `
+                    <div class="modal fade" id="couponModal" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-success text-white">
+                                    <h5 class="modal-title">
+                                        <i class="fas fa-ticket-alt me-2"></i>Deal Claimed Successfully!
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body text-center p-4">
+                                    <div class="mb-4">
+                                        <i class="fas fa-gift text-success" style="font-size: 3rem;"></i>
+                                    </div>
+                                    <h4 class="mb-3">Your Coupon Code</h4>
+                                    <div class="bg-light p-3 rounded mb-3" style="font-family: monospace; font-size: 1.2rem;">
+                                        ${data.claim.code}
+                                    </div>
+                                    <p class="text-muted mb-0">
+                                        Valid until: ${new Date(data.claim.expiryDate).toLocaleDateString()}
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <a href="/customer-dashboard.html" class="btn btn-primary">
+                                        <i class="fas fa-external-link-alt me-2"></i>View in Dashboard
                                     </a>
                                 </div>
                             </div>
                         </div>
-                    `;
+                    </div>
+                `;
 
-                    dealsList.appendChild(dealElement);
+                // Add modal to body
+                document.body.insertAdjacentHTML('beforeend', modalHtml);
+                
+                // Show the modal
+                const modal = new bootstrap.Modal(document.getElementById('couponModal'));
+                modal.show();
+
+                // Remove modal from DOM when hidden
+                document.getElementById('couponModal').addEventListener('hidden.bs.modal', function () {
+                    this.remove();
                 });
-            }
-
-            // Initial render
-            renderDeals(deals);
-
-            // Filter functionality
-            const categoryButtons = document.querySelectorAll('.category-btn');
-            categoryButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    categoryButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    const category = this.textContent;
-                    if (category === 'All') {
-                        renderDeals(deals);
-                    } else {
-                        const filteredDeals = deals.filter(deal => deal.category === category);
-                        renderDeals(filteredDeals);
-                    }
-                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                button.disabled = false;
+                button.className = 'claim-btn';
+                button.innerHTML = '<i class="fas fa-ticket-alt me-2"></i>Claim Deal';
+                
+                // Show error message
+                alert(error.message || 'Failed to claim deal. Please try again.');
             });
+        }
 
-            // Search functionality
-            const searchInput = document.querySelector('.search-input');
-            searchInput.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
-                const filteredDeals = deals.filter(deal => 
-                    deal.title.toLowerCase().includes(searchTerm) || 
-                    deal.description.toLowerCase().includes(searchTerm)
-                );
-                renderDeals(filteredDeals);
-            });
+        // Store deals globally for access in claim function
+        let currentDeals = [];
 
-            // Back to Top functionality
-            const backToTop = document.getElementById('backToTop');
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) {
-                    backToTop.classList.add('visible');
-                } else {
-                    backToTop.classList.remove('visible');
-                }
+        // Fetch and display deals
+        fetch('/api/deals')
+            .then(response => response.json())
+            .then(deals => {
+                // Store deals globally
+                currentDeals = deals;
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
-
-            backToTop.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        });
     </script>
 </body>
 </html>

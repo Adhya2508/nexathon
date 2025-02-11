@@ -3,30 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Portal - PocketPerks</title>
+    <title>Login - Nexathon</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/theme.css">
     <style>
+        :root {
+            --primary-color: #6B73FF;
+            --secondary-color: #9D50BB;
+            --dark-bg: #1a1a2e;
+            --card-bg: #242444;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B8B8D0;
+            --success: #6BCB77;
+            --danger: #FF6B6B;
+            --primary-gradient: linear-gradient(135deg, #6B73FF, #9D50BB);
+            --hover-gradient: linear-gradient(135deg, #9D50BB, #6B73FF);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
         body {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 2rem 1rem;
-            background-color: var(--background-dark);
+            background: var(--dark-bg);
+            background-image: 
+                radial-gradient(circle at 100% 0%, rgba(107,115,255,0.15) 0%, transparent 25%),
+                radial-gradient(circle at 0% 100%, rgba(157,80,187,0.15) 0%, transparent 25%);
+            background-attachment: fixed;
         }
 
         .auth-container {
             width: 100%;
             max-width: 500px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .auth-card {
             position: relative;
             overflow: hidden;
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 2rem;
+            background: rgba(36, 36, 68, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         .auth-card::before {
@@ -41,338 +75,349 @@
 
         .auth-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
         .auth-header h2 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
             background: var(--primary-gradient);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .auth-header p {
             color: var(--text-secondary);
-        }
-
-        .form-switch {
-            display: flex;
-            background: var(--background-dark);
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            padding: 0.3rem;
-        }
-
-        .switch-btn {
-            flex: 1;
-            padding: 0.8rem;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            color: var(--text-secondary);
-        }
-
-        .switch-btn.active {
-            background: var(--primary-gradient);
-            color: white;
-        }
-
-        .form-section {
-            display: none;
-        }
-
-        .form-section.active {
-            display: block;
+            font-size: 1.1rem;
         }
 
         .form-group {
             margin-bottom: 1.5rem;
         }
 
-        .form-group label {
-            display: block;
+        .form-label {
+            color: var(--text-secondary);
             margin-bottom: 0.5rem;
-            color: var(--text-primary);
+            font-weight: 500;
         }
 
         .form-control {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
             background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             color: var(--text-primary);
+            padding: 0.8rem 1.2rem;
             transition: all 0.3s ease;
         }
 
         .form-control:focus {
-            outline: none;
+            background: rgba(255, 255, 255, 0.08);
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 0.8rem;
-            border: none;
-            border-radius: 8px;
-            background: var(--primary-gradient);
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .social-login {
-            margin-top: 2rem;
-            text-align: center;
-        }
-
-        .social-login p {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-        }
-
-        .social-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .social-btn {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.8rem 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.05);
+            box-shadow: none;
             color: var(--text-primary);
         }
 
-        .social-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
 
-        .social-btn img {
-            width: 24px;
-            margin-right: 0.8rem;
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--hover-gradient);
+            transition: all 0.3s ease;
+            z-index: -1;
         }
 
-        .error-message {
-            background: rgba(255, 0, 0, 0.1);
-            color: #ff4444;
+        .btn-primary:hover::before {
+            transform: translateX(100%);
+        }
+
+        .btn-primary span {
+            position: relative;
+            z-index: 2;
+            color: var(--text-primary);
+        }
+
+        .alert {
+            border-radius: 12px;
             padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             display: none;
         }
 
-        .success-message {
-            background: rgba(0, 255, 0, 0.1);
-            color: #00ff00;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            display: none;
+        .alert-success {
+            background: rgba(107, 203, 119, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .alert-danger {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
         }
 
         .home-link {
             position: fixed;
             top: 2rem;
             left: 2rem;
-            color: var(--text-primary);
+            color: var(--text-secondary);
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            transition: color 0.3s ease;
         }
 
         .home-link:hover {
-            color: var(--primary-color);
-            transform: translateX(-3px);
+            color: var(--text-primary);
+        }
+
+        .return-home-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .return-home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        @media (max-width: 768px) {
+            .auth-card {
+                padding: 2rem;
+            }
+            
+            .home-link {
+                top: 1rem;
+                left: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <a href="/" class="home-link">
-        <i class="fas fa-arrow-left"></i>
-        Back to Home
+    <a href="/" class="btn btn-primary return-home-btn">
+        <i class="fas fa-home me-2"></i>Return to Home
     </a>
-
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
-                <h2>Welcome to PocketPerks</h2>
-                <p>Discover amazing deals and save money</p>
+                <h2>Welcome Back!</h2>
+                <p>Please login to your account</p>
             </div>
 
-            <div class="form-switch">
-                <div class="switch-btn active" data-form="login">Login</div>
-                <div class="switch-btn" data-form="signup">Sign Up</div>
-            </div>
+            <div class="alert alert-success" id="successAlert" style="display: none;"></div>
+            <div class="alert alert-danger" id="errorAlert" style="display: none;"></div>
 
-            <div id="errorMessage" class="error-message"></div>
-            <div id="successMessage" class="success-message"></div>
-
-            <div id="loginForm" class="form-section active">
-                <form onsubmit="return handleLogin(event)">
-                    <div class="form-group">
-                        <label for="loginUsername">Username</label>
-                        <input type="text" id="loginUsername" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="loginPassword">Password</label>
-                        <input type="password" id="loginPassword" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </form>
-            </div>
-
-            <div id="signupForm" class="form-section">
-                <form onsubmit="return handleSignup(event)">
-                    <div class="form-group">
-                        <label for="fullName">Full Name</label>
-                        <input type="text" id="fullName" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="signupUsername">Username</label>
-                        <input type="text" id="signupUsername" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="signupPassword">Password</label>
-                        <input type="password" id="signupPassword" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Sign Up</button>
-                </form>
-            </div>
-
-            <div class="social-login">
-                <p>Or continue with</p>
-                <div class="social-buttons">
-                    <button class="social-btn">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
-                        Google
-                    </button>
-                    <button class="social-btn">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" alt="Facebook">
-                        Facebook
-                    </button>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="loginEmail" required>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="loginPassword" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mb-3">
+                    <span>Login</span>
+                </button>
+                <p class="text-center mb-0">
+                    Don't have an account? 
+                    <a href="#" onclick="switchForm('signup')" style="color: var(--primary-color); text-decoration: none;">
+                        Sign Up
+                    </a>
+                </p>
+            </form>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/auth-utils.js"></script>
     <script>
-        // Form switching functionality
-        const switchBtns = document.querySelectorAll('.switch-btn');
-        const forms = document.querySelectorAll('.form-section');
-
-        switchBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const formId = btn.getAttribute('data-form');
-                
-                // Update active states
-                switchBtns.forEach(b => b.classList.remove('active'));
-                forms.forEach(f => f.classList.remove('active'));
-                
-                btn.classList.add('active');
-                document.getElementById(formId + 'Form').classList.add('active');
-            });
-        });
-
-        async function handleLogin(event) {
-            event.preventDefault();
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-
-            try {
-                const response = await fetch('/api/customer/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ username, password })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('username', username);
-                    localStorage.setItem('userType', 'customer');
-                    window.location.href = '/customer-dashboard.html';
-                } else {
-                    showError(data.message || 'Login failed');
-                }
-            } catch (error) {
-                showError('An error occurred. Please try again.');
-            }
-        }
-
-        async function handleSignup(event) {
-            event.preventDefault();
-            const username = document.getElementById('signupUsername').value;
-            const password = document.getElementById('signupPassword').value;
-            const fullname = document.getElementById('fullName').value;
-
-            try {
-                const response = await fetch('/api/customer/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ username, password, fullname })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    showSuccess('Registration successful! Please login.');
-                    // Switch to login form
-                    document.querySelector('[data-form="login"]').click();
-                } else {
-                    showError(data.message || 'Registration failed');
-                }
-            } catch (error) {
-                showError('An error occurred. Please try again.');
+        function switchForm(type) {
+            const container = document.querySelector('.auth-card');
+            const headerTitle = document.querySelector('.auth-header h2');
+            const headerText = document.querySelector('.auth-header p');
+            
+            if (type === 'login') {
+                headerTitle.textContent = 'Welcome Back!';
+                headerText.textContent = 'Please login to your account';
+                container.innerHTML = `
+                    <div class="auth-header">
+                        <h2>Welcome Back!</h2>
+                        <p>Please login to your account</p>
+                    </div>
+                    <div class="alert alert-success" id="successAlert" style="display: none;"></div>
+                    <div class="alert alert-danger" id="errorAlert" style="display: none;"></div>
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mb-3">
+                            <span>Login</span>
+                        </button>
+                        <p class="text-center mb-0">
+                            Don't have an account? 
+                            <a href="#" onclick="switchForm('signup')" style="color: var(--primary-color); text-decoration: none;">
+                                Sign Up
+                            </a>
+                        </p>
+                    </form>
+                `;
+            } else {
+                headerTitle.textContent = 'Create Account';
+                headerText.textContent = 'Get started with your free account';
+                container.innerHTML = `
+                    <div class="auth-header">
+                        <h2>Create Account</h2>
+                        <p>Get started with your free account</p>
+                    </div>
+                    <div class="alert alert-success" id="successAlert" style="display: none;"></div>
+                    <div class="alert alert-danger" id="errorAlert" style="display: none;"></div>
+                    <form onsubmit="handleSignup(event)">
+                        <div class="form-group">
+                            <label for="signupName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="signupName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="signupEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="signupPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mb-3">
+                            <span>Create Account</span>
+                        </button>
+                        <p class="text-center mb-0">
+                            Already have an account? 
+                            <a href="#" onclick="switchForm('login')" style="color: var(--primary-color); text-decoration: none;">
+                                Login
+                            </a>
+                        </p>
+                    </form>
+                `;
             }
         }
 
         function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
+            const errorDiv = document.getElementById('errorAlert');
+            const successDiv = document.getElementById('successAlert');
             errorDiv.textContent = message;
             errorDiv.style.display = 'block';
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 5000);
+            successDiv.style.display = 'none';
         }
 
         function showSuccess(message) {
-            const successDiv = document.getElementById('successMessage');
+            const successDiv = document.getElementById('successAlert');
+            const errorDiv = document.getElementById('errorAlert');
             successDiv.textContent = message;
             successDiv.style.display = 'block';
-            setTimeout(() => {
-                successDiv.style.display = 'none';
-            }, 5000);
+            errorDiv.style.display = 'none';
         }
 
-        // Check if user is already logged in
-        if (authUtils.isLoggedIn()) {
-            authUtils.redirectIfAuthenticated();
+        async function handleSignup(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const fullName = document.getElementById('signupName').value;
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email,
+                        password,
+                        fullName
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Registration failed');
+                }
+
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('username', data.username);
+
+                showSuccess('Registration successful! Redirecting...');
+                
+                setTimeout(() => {
+                    window.location.href = '/customer-dashboard.html';
+                }, 1500);
+
+            } catch (error) {
+                showError(error.message || 'An error occurred during registration');
+            }
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Login failed');
+                }
+
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('username', data.username);
+
+                showSuccess('Login successful! Redirecting...');
+                
+                setTimeout(() => {
+                    window.location.href = '/customer-dashboard.html';
+                }, 1500);
+
+            } catch (error) {
+                showError(error.message || 'An error occurred during login');
+            }
+        }
+
+        if (localStorage.getItem('token')) {
+            window.location.href = '/customer-dashboard.html';
         }
     </script>
 </body>

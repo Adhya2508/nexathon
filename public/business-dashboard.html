@@ -7,6 +7,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/theme.css">
     <style>
+        :root {
+            --primary-color: #4A90E2;
+            --primary-dark: #357ABD;
+            --secondary-color: #2C3E50;
+            --background-dark: #1a1e2e;
+            --card-bg: #252b3d;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0B0;
+            --success-color: #2ECC71;
+        }
+
+        body {
+            background-color: var(--background-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
         .dashboard-grid {
             display: grid;
             grid-template-columns: 250px 1fr;
@@ -21,6 +38,10 @@
             position: sticky;
             top: 1rem;
             height: fit-content;
+        }
+
+        .sidebar-header {
+            margin-bottom: 1rem;
         }
 
         .sidebar-menu {
@@ -58,22 +79,59 @@
             padding: 1rem 0;
         }
 
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .content-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .dashboard-section {
+            padding: 2rem;
+        }
+
+        .dashboard-section h2 {
+            margin: 0 0 2rem 0;
+            font-size: 1.8rem;
+            color: var(--text-primary);
+        }
+
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+            max-width: 1400px;
+        }
+
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .stat-card {
+            padding: 1.8rem;
             background: var(--background-light);
-            border-radius: 15px;
-            padding: 1.5rem;
+            border-radius: 12px;
             text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .stat-value {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 600;
             margin: 0.5rem 0;
             background: var(--primary-gradient);
@@ -83,185 +141,591 @@
 
         .stat-label {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 1.1rem;
+            font-weight: 500;
         }
 
-        .create-deal-form {
-            display: none;
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
-        .create-deal-form.active {
-            display: block;
+        .deal-card {
+            background: var(--background-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .deal-actions {
-            display: flex;
+        .deal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .deal-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
             margin-top: 1rem;
         }
 
-        .deal-actions button {
-            flex: 1;
+        .deal-stat {
+            text-align: center;
         }
 
-        #dealsTable {
-            width: 100%;
-            border-collapse: collapse;
+        .deal-stat-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .deal-stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+
+        .deal-expiry {
             margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
         }
 
-        #dealsTable th,
-        #dealsTable td {
-            padding: 1rem;
+        .section-card {
+            background: var(--background-light);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .section-card h3 {
+            margin: 0 0 1.5rem 0;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            background: var(--background);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        #allDealsTable {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 0;
+        }
+
+        #allDealsTable th,
+        #allDealsTable td {
+            padding: 1.25rem 1.5rem;
             text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid var(--border-color);
+            white-space: nowrap;
         }
 
-        #dealsTable th {
+        #allDealsTable th {
+            background: var(--background-light);
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        #allDealsTable td {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            vertical-align: middle;
+        }
+
+        #allDealsTable tr:last-child td {
+            border-bottom: none;
+        }
+
+        #allDealsTable tr:hover td {
+            background: rgba(107,115,255,0.05);
+            color: var(--text-primary);
+        }
+
+        .status-badge {
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-block;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .status-active {
+            background: rgba(46, 213, 115, 0.15);
+            color: #2ed573;
+        }
+
+        .status-expired {
+            background: rgba(255, 71, 87, 0.15);
+            color: #ff4757;
+        }
+
+        .delete-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 100px;
+        }
+
+        .delete-btn:hover {
+            background: #ff6b81;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(255, 71, 87, 0.2);
+        }
+
+        #manageDeals {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        #manageDeals h2 {
+            margin: 0 0 2rem 0;
+            font-size: 1.8rem;
+            color: var(--text-primary);
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: #f8f9fa;
+            color: #000000;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #6B73FF;
+            box-shadow: 0 0 0 3px rgba(107, 115, 255, 0.1);
+            background: #ffffff;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(107, 115, 255, 0.2);
+        }
+
+        .btn-secondary {
             background: var(--background-light);
             color: var(--text-secondary);
         }
 
-        #dealsTable tr:hover {
-            background: rgba(255,255,255,0.02);
+        .btn-secondary:hover {
+            background: var(--border-color);
         }
 
-        .status-badge {
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
         }
 
-        .status-active {
-            background: rgba(0,200,81,0.1);
-            color: var(--success);
+        .login-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .status-expired {
-            background: rgba(255,68,68,0.1);
-            color: var(--error);
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h2 {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid #dc3545;
+            color: #dc3545;
+        }
+
+        .alert-success {
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid #28a745;
+            color: #28a745;
+        }
+
+        .return-home-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .return-home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
         }
     </style>
 </head>
 <body>
-    <nav>
-        <div class="nav-container">
-            <h1>PocketPerks</h1>
-        </div>
-    </nav>
-
-    <div class="container">
-        <div class="dashboard-grid">
-            <aside class="sidebar">
-                <div style="margin-bottom: 2rem;">
-                    <h3 id="businessName" style="margin: 0;">Loading...</h3>
-                    <p style="color: var(--text-secondary); margin: 0.5rem 0 0 0;" id="businessCategory"></p>
+    <a href="/" class="btn btn-primary return-home-btn" style="text-decoration: none;">
+        <i class="fas fa-home me-2"></i>Return to Home
+    </a>
+    <div id="loginSection" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h2>Business Login</h2>
+                <p style="color: var(--text-secondary);">Access your business dashboard</p>
+            </div>
+            <div class="alert alert-danger" id="errorAlert"></div>
+            <div class="alert alert-success" id="successAlert"></div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-control" id="loginUsername" required>
                 </div>
-                <ul class="sidebar-menu">
-                    <li><a href="#" class="active" data-section="overview">📊 Overview</a></li>
-                    <li><a href="#" data-section="deals">🏷️ Manage Deals</a></li>
-                    <li><a href="#" data-section="create">➕ Create Deal</a></li>
-                    <li><a href="#" data-section="analytics">📈 Analytics</a></li>
-                    <li><a href="#" data-section="settings">⚙️ Settings</a></li>
-                    <li><a href="#" onclick="logout()">🚪 Logout</a></li>
-                </ul>
-            </aside>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </form>
+        </div>
+    </div>
 
-            <main class="main-content">
-                <section id="overview" class="dashboard-section active">
-                    <h2>Dashboard Overview</h2>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-value" id="activeDeals">0</div>
-                            <div class="stat-label">Active Deals</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="totalViews">0</div>
-                            <div class="stat-label">Total Views</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="totalClaims">0</div>
-                            <div class="stat-label">Total Claims</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="conversionRate">0%</div>
-                            <div class="stat-label">Conversion Rate</div>
+    <div id="dashboardSection" style="display: none;">
+        <nav>
+            <div class="nav-container">
+                <h1>PocketPerks</h1>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="dashboard-grid">
+                <aside class="sidebar">
+                    <div class="sidebar-header">
+                        <h2>Dashboard</h2>
+                    </div>
+                    <ul class="sidebar-menu">
+                        <li><a href="#" class="active" data-section="overview">📊 Overview</a></li>
+                        <li><a href="#" data-section="activeDeals">🎯 Active Deals</a></li>
+                        <li><a href="#" data-section="manageDeals">🏷️ Manage Deals</a></li>
+                        <li><a href="#" data-section="create">➕ Create Deal</a></li>
+                        <li><a href="#" data-section="analytics">📈 Analytics</a></li>
+                        <li><a href="#" data-section="settings">⚙️ Settings</a></li>
+                        <li><a href="#" onclick="logout()">🚪 Logout</a></li>
+                    </ul>
+                </aside>
+
+                <main class="main-content">
+                    <div id="overview" class="content-section active">
+                        <div class="content-wrapper">
+                            <h2>Overview</h2>
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-value" id="totalDeals">0</div>
+                                    <div class="stat-label">Active Deals</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value" id="totalViews">0</div>
+                                    <div class="stat-label">Total Views</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value" id="totalClaims">0</div>
+                                    <div class="stat-label">Total Claims</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value" id="conversionRate">0%</div>
+                                    <div class="stat-label">Conversion Rate</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="card">
-                        <h3>Recent Activity</h3>
-                        <table id="dealsTable">
-                            <thead>
-                                <tr>
-                                    <th>Deal Title</th>
-                                    <th>Status</th>
-                                    <th>Views</th>
-                                    <th>Claims</th>
-                                    <th>Expiry Date</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dealsTableBody">
-                                <!-- Deals will be populated here -->
-                            </tbody>
-                        </table>
+                    <div id="activeDeals" class="content-section">
+                        <div class="content-wrapper">
+                            <h2>Active Deals</h2>
+                            <div class="deals-grid" id="currentDealsGrid">
+                            </div>
+                        </div>
                     </div>
-                </section>
 
-                <section id="create" class="dashboard-section" style="display: none;">
-                    <h2>Create New Deal</h2>
-                    <div class="card">
-                        <form id="createDealForm" onsubmit="return handleCreateDeal(event)">
-                            <div class="form-group">
-                                <label for="dealTitle">Deal Title</label>
-                                <input type="text" id="dealTitle" class="form-control" required>
+                    <div id="manageDeals" class="content-section">
+                        <h2>Manage Deals</h2>
+                        <div class="section-card">
+                            <h3>All Deals</h3>
+                            <div class="table-container">
+                                <table id="allDealsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Status</th>
+                                            <th>Views</th>
+                                            <th>Claims</th>
+                                            <th>Expiry Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="allDealsTableBody">
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="form-group">
-                                <label for="dealDescription">Description</label>
-                                <textarea id="dealDescription" class="form-control" rows="4" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="discount">Discount (%)</label>
-                                <input type="number" id="discount" class="form-control" min="0" max="100" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="expiryDate">Expiry Date</label>
-                                <input type="date" id="expiryDate" class="form-control" required>
-                            </div>
-                            <div class="deal-actions">
-                                <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset</button>
-                                <button type="submit" class="btn btn-primary">Create Deal</button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
-                </section>
-            </main>
+
+                    <div id="create" class="content-section">
+                        <div class="content-wrapper">
+                            <div class="form-container">
+                                <h2>Create New Deal</h2>
+                                <div class="section-card">
+                                    <form id="createDealForm" onsubmit="return handleCreateDeal(event)">
+                                        <div class="form-group">
+                                            <label for="dealTitle">Deal Title</label>
+                                            <input type="text" id="dealTitle" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="dealDescription">Description</label>
+                                            <textarea id="dealDescription" class="form-control" rows="4" required></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="discount">Discount (%)</label>
+                                            <input type="number" id="discount" class="form-control" min="0" max="100" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="expiryDate">Expiry Date</label>
+                                            <input type="date" id="expiryDate" class="form-control" required>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset</button>
+                                            <button type="submit" class="btn btn-primary">Create Deal</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="analytics" class="content-section">
+                        <div class="content-wrapper">
+                            <h2>Analytics</h2>
+                            <div class="section-card">
+                                <h3>Coming Soon</h3>
+                                <p>Analytics features will be available soon.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="settings" class="content-section">
+                        <div class="content-wrapper">
+                            <h2>Settings</h2>
+                            <div class="section-card">
+                                <h3>Coming Soon</h3>
+                                <p>Settings features will be available soon.</p>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
         </div>
     </div>
 
     <script>
-        // Check authentication
-        const token = localStorage.getItem('token');
-        if (!token) {
-            window.location.href = '/business-auth.html';
+        function showError(message) {
+            const errorAlert = document.getElementById('errorAlert');
+            errorAlert.textContent = message;
+            errorAlert.style.display = 'block';
+            setTimeout(() => errorAlert.style.display = 'none', 5000);
         }
 
-        // Navigation
-        const menuLinks = document.querySelectorAll('.sidebar-menu a[data-section]');
-        const sections = document.querySelectorAll('.dashboard-section');
+        function showSuccess(message) {
+            const successAlert = document.getElementById('successAlert');
+            successAlert.textContent = message;
+            successAlert.style.display = 'block';
+            setTimeout(() => successAlert.style.display = 'none', 5000);
+        }
 
-        menuLinks.forEach(link => {
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const response = await fetch('/api/business/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Login failed');
+                }
+
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('username', data.username);
+                localStorage.setItem('userType', 'business');
+
+                showSuccess('Login successful!');
+                setTimeout(() => {
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('dashboardSection').style.display = 'block';
+                    loadDeals(); // Load the dashboard data
+                }, 1000);
+
+            } catch (error) {
+                showError(error.message || 'An error occurred during login');
+            }
+        }
+
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const userType = localStorage.getItem('userType');
+            
+            if (token && userType === 'business') {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'block';
+                loadDeals(); // Load the dashboard data
+            } else {
+                document.getElementById('loginSection').style.display = 'flex';
+                document.getElementById('dashboardSection').style.display = 'none';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            localStorage.removeItem('userType');
+            checkAuth();
+        }
+
+        // Check authentication on page load
+        checkAuth();
+
+        // Navigation
+        document.querySelectorAll('.sidebar-menu a[data-section]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                const sectionId = link.dataset.section;
+                const sectionId = link.getAttribute('data-section');
                 
-                // Update active states
-                menuLinks.forEach(l => l.classList.remove('active'));
-                sections.forEach(s => s.style.display = 'none');
+                // Remove active class from all sections and links
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.querySelectorAll('.sidebar-menu a').forEach(menuLink => {
+                    menuLink.classList.remove('active');
+                });
                 
+                // Add active class to clicked section and link
+                document.getElementById(sectionId).classList.add('active');
                 link.classList.add('active');
-                document.getElementById(sectionId).style.display = 'block';
             });
         });
 
@@ -282,7 +746,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
                     },
                     body: JSON.stringify(dealData)
                 });
@@ -309,7 +773,7 @@
             try {
                 const response = await fetch('/api/deals', {
                     headers: {
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
                 });
 
@@ -323,24 +787,59 @@
             }
         }
 
-        function updateDashboardStats(deals) {
-            const activeDeals = deals.filter(deal => new Date(deal.expiryDate) > new Date()).length;
+        async function updateDashboardStats(deals) {
+            const now = new Date();
+            const activeDeals = deals.filter(deal => new Date(deal.expiryDate) >= now);
+            
+            document.getElementById('totalDeals').textContent = activeDeals.length;
+            
             const totalViews = deals.reduce((sum, deal) => sum + (deal.views || 0), 0);
             const totalClaims = deals.reduce((sum, deal) => sum + (deal.claims || 0), 0);
-            const conversionRate = totalViews ? ((totalClaims / totalViews) * 100).toFixed(1) : 0;
-
-            document.getElementById('activeDeals').textContent = activeDeals;
+            
             document.getElementById('totalViews').textContent = totalViews;
             document.getElementById('totalClaims').textContent = totalClaims;
+            
+            const conversionRate = totalViews ? Math.round((totalClaims / totalViews) * 100) : 0;
             document.getElementById('conversionRate').textContent = `${conversionRate}%`;
         }
 
-        function populateDealsTable(deals) {
-            const tbody = document.getElementById('dealsTableBody');
-            tbody.innerHTML = '';
-
+        async function populateDealsTable(deals) {
+            const now = new Date();
+            const activeDeals = deals.filter(deal => new Date(deal.expiryDate) >= now);
+            
+            // Update stats
+            updateDashboardStats(deals);
+            
+            // Populate active deals section
+            const currentDealsGrid = document.getElementById('currentDealsGrid');
+            currentDealsGrid.innerHTML = '';
+            
+            activeDeals.forEach(deal => {
+                const card = `
+                    <div class="deal-card">
+                        <div class="deal-title">${deal.title}</div>
+                        <div class="deal-stats">
+                            <div class="deal-stat">
+                                <div class="deal-stat-value">${deal.views || 0}</div>
+                                <div class="deal-stat-label">Views</div>
+                            </div>
+                            <div class="deal-stat">
+                                <div class="deal-stat-value">${deal.claims || 0}</div>
+                                <div class="deal-stat-label">Claims</div>
+                            </div>
+                        </div>
+                        <div class="deal-expiry">Expires: ${new Date(deal.expiryDate).toLocaleDateString()}</div>
+                    </div>
+                `;
+                currentDealsGrid.insertAdjacentHTML('beforeend', card);
+            });
+            
+            // Populate manage deals section
+            const allTableBody = document.getElementById('allDealsTableBody');
+            allTableBody.innerHTML = '';
+            
             deals.forEach(deal => {
-                const isExpired = new Date(deal.expiryDate) < new Date();
+                const isExpired = new Date(deal.expiryDate) < now;
                 const row = `
                     <tr>
                         <td>${deal.title}</td>
@@ -348,17 +847,36 @@
                         <td>${deal.views || 0}</td>
                         <td>${deal.claims || 0}</td>
                         <td>${new Date(deal.expiryDate).toLocaleDateString()}</td>
+                        <td>
+                            <button class="delete-btn" onclick="deleteDeal('${deal._id}')">
+                                Delete
+                            </button>
+                        </td>
                     </tr>
                 `;
-                tbody.insertAdjacentHTML('beforeend', row);
+                allTableBody.insertAdjacentHTML('beforeend', row);
             });
         }
 
-        function logout() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('username');
-            localStorage.removeItem('businessName');
-            window.location.href = '/business-auth.html';
+        async function deleteDeal(dealId) {
+            try {
+                const response = await fetch(`/api/deals/${dealId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to delete deal');
+                }
+
+                // Reload deals after successful deletion
+                loadDeals();
+            } catch (error) {
+                console.error('Error deleting deal:', error);
+                alert('Failed to delete deal. Please try again.');
+            }
         }
 
         // Initialize

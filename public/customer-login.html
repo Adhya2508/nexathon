@@ -179,9 +179,27 @@
             height: 20px;
             margin-right: 0.5rem;
         }
+
+        .return-home-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 15px 25px;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .return-home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
     </style>
 </head>
 <body>
+    <a href="/" class="btn btn-primary return-home-btn">
+        <i class="fas fa-home me-2"></i>Return to Home
+    </a>
     <nav class="navbar">
         <a href="/" class="navbar-brand">PocketPerks</a>
     </nav>
